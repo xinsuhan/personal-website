@@ -310,6 +310,37 @@
       font-size: 13px;
     }
 
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .about-card,
+    .skills-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 12px 36px rgba(31, 41, 51, 0.05);
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .skill-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #f4f8fb;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
     .academic-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -503,8 +534,10 @@
       <a class="brand" href="/">Xin Suhan</a>
       <div class="nav-right">
         <div class="nav-links">
+          <a href="#about" data-i18n="navAbout">About</a>
+          <a href="#skills" data-i18n="navSkills">Skills</a>
           <a href="#academic" data-i18n="navAcademic">Academic</a>
-          <a href="#games" data-i18n="navGames">Games</a>
+          <a href="#projects" data-i18n="navProjects">Projects</a>
           <a href="#contact" data-i18n="navContact">Contact</a>
           <a href="https://github.com/xinsuhan" data-i18n="navGitHub">GitHub</a>
         </div>
@@ -517,17 +550,18 @@
 
     <section class="hero" aria-label="Introduction">
       <div class="hero-main">
-        <p class="eyebrow" data-i18n="heroEyebrow">CS / AI Student</p>
-        <h1 data-i18n="heroTitle">Building with code, web ideas, and AI.</h1>
+        <p class="eyebrow" data-i18n="heroEyebrow">Computer Science Undergraduate</p>
+        <h1 data-i18n="heroTitle">Building with code, mathematics, and AI.</h1>
         <p class="intro" data-i18n="heroIntro">
-          I am learning programming, web development, artificial intelligence,
-          and hands-on project practice. This site collects small projects,
-          experiments, coursework, and notes as I grow as a developer.
+          I am a Computer Science undergraduate interested in artificial intelligence,
+          mathematical modeling, web development, and practical software projects. This
+          website collects my academic highlights, project practice, and browser-based
+          experiments.
         </p>
         <div class="actions">
-          <a class="button primary" href="/2048/" data-i18n="buttonPlay2048">Play 2048</a>
-          <a class="button" href="#games" data-i18n="buttonBrowseGames">Browse Games</a>
-          <a class="button" href="https://github.com/xinsuhan" data-i18n="buttonViewGitHub">View GitHub</a>
+          <a class="button primary" href="#projects" data-i18n="buttonViewProjects">View Projects</a>
+          <a class="button" href="#academic" data-i18n="buttonAcademicHighlights">Academic Highlights</a>
+          <a class="button" href="https://github.com/xinsuhan" data-i18n="buttonViewGitHub">GitHub</a>
           <a class="button" href="mailto:xinsuhan@gmail.com" data-i18n="buttonEmailMe">Email Me</a>
         </div>
       </div>
@@ -562,12 +596,47 @@
       </aside>
     </section>
 
+    <section id="about" aria-labelledby="about-title">
+      <div class="section-head">
+        <h2 id="about-title" data-i18n="aboutTitle">About Me</h2>
+      </div>
+      <div class="about-card">
+        <p data-i18n="aboutBody">
+          I am currently building my foundation in computer science through coursework,
+          competitions, and hands-on projects. My interests include AI, mathematical modeling,
+          data analysis, web development, and open-source learning.
+        </p>
+      </div>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="section-head">
+        <h2 id="skills-title" data-i18n="skillsTitle">Tech Stack</h2>
+        <p data-i18n="skillsDescription">Tools and topics I am building confidence with.</p>
+      </div>
+      <div class="skills-card">
+        <div class="skills-grid" aria-label="Tech stack">
+          <span class="skill-pill" data-i18n="skillPython">Python</span>
+          <span class="skill-pill" data-i18n="skillCpp">C++</span>
+          <span class="skill-pill" data-i18n="skillHtml">HTML</span>
+          <span class="skill-pill" data-i18n="skillCss">CSS</span>
+          <span class="skill-pill" data-i18n="skillJavaScript">JavaScript</span>
+          <span class="skill-pill" data-i18n="skillLatex">LaTeX</span>
+          <span class="skill-pill" data-i18n="skillGit">Git / GitHub</span>
+          <span class="skill-pill" data-i18n="skillModeling">Mathematical Modeling</span>
+          <span class="skill-pill" data-i18n="skillMl">Machine Learning</span>
+          <span class="skill-pill" data-i18n="skillData">Data Analysis</span>
+          <span class="skill-pill" data-i18n="skillWeb">Web Development</span>
+        </div>
+      </div>
+    </section>
+
     <section id="academic" aria-labelledby="academic-title">
       <div class="section-head">
         <h2 id="academic-title" data-i18n="academicTitle">Academic Highlights</h2>
         <p data-i18n="academicDescription">
-          Selected academic results from modeling, mathematics, and research
-          practice.
+          Selected academic achievements and coursework outcomes from modeling,
+          mathematics, and applied research practice.
         </p>
       </div>
 
@@ -592,6 +661,9 @@
               Modeling for research on voting fairness and reconstruction in
               Dancing with the Stars.
             </p>
+            <div class="project-meta" data-i18n="mcmKeywords">
+              Mathematical Modeling · Fairness Analysis · Vote Reconstruction
+            </div>
             <div class="academic-actions">
               <a class="button primary" href="/assets/mcm-hm.jpg" data-i18n="buttonViewCertificate">View Certificate</a>
               <a class="button" href="/assets/mcm-paper.pdf" data-i18n="buttonReadPaper">Read Paper</a>
@@ -624,16 +696,33 @@
       </div>
     </section>
 
-    <section id="games" aria-labelledby="games-title">
+    <section id="projects" aria-labelledby="games-title">
       <div class="section-head">
-        <h2 id="games-title" data-i18n="gamesTitle">Games / Projects</h2>
+        <h2 id="games-title" data-i18n="gamesTitle">Projects & Games</h2>
         <p data-i18n="gamesDescription">
-          Browser games and small web experiments collected under this personal
-          GitHub Pages site.
+          Academic projects, web experiments, and browser games collected under
+          this personal site.
         </p>
       </div>
 
       <div class="project-grid">
+        <article class="project-card featured">
+          <div class="tag-row">
+            <span class="tag" data-i18n="projectTagModeling">Mathematical Modeling</span>
+            <span class="tag" data-i18n="projectTagFairness">Fairness Analysis</span>
+            <span class="tag" data-i18n="projectTagVote">Vote Reconstruction</span>
+            <span class="tag" data-i18n="projectTagReplay">Counterfactual Replay</span>
+          </div>
+          <h3 data-i18n="mcmProjectTitle">MCM Vote Reconstruction Project</h3>
+          <p data-i18n="mcmProjectDescription">
+            A mathematical modeling project that builds a reconstruction–replay–redesign
+            framework to analyze voting fairness in Dancing with the Stars.
+          </p>
+          <div class="academic-actions">
+            <a class="button primary" href="/assets/mcm-paper.pdf" data-i18n="buttonReadPaper">Read Paper</a>
+            <a class="button" href="/assets/mcm-hm.jpg" data-i18n="buttonViewCertificate">View Certificate</a>
+          </div>
+        </article>
         <article class="project-card featured">
           <span class="tag" data-i18n="playableTag">Playable</span>
           <h3 data-i18n="game2048Title">2048 Game</h3>
@@ -697,6 +786,7 @@
       <div class="section-head">
         <h2 id="contact-title" data-i18n="contactTitle">Contact</h2>
         <p data-i18n="contactDescription">Reach me through email, GitHub, or this personal website.</p>
+        <p data-i18n="contactNote">Open to learning projects, collaboration, and technical discussions.</p>
       </div>
 
       <div class="contact">
@@ -724,19 +814,21 @@
       const STORAGE_KEY = "homeLanguage";
       const translations = {
         en: {
-          pageTitle: "Xin Suhan | CS / AI Student",
-          metaDescription: "Xin Suhan - CS / AI student learning programming, web development, AI, and project practice.",
+          pageTitle: "Xin Suhan | Computer Science Undergraduate",
+          metaDescription: "Xin Suhan - Computer Science undergraduate focused on AI, mathematical modeling, web development, and project practice.",
+          navAbout: "About",
+          navSkills: "Skills",
           navAcademic: "Academic",
-          navGames: "Games",
+          navProjects: "Projects",
           navContact: "Contact",
           navGitHub: "GitHub",
-          heroEyebrow: "CS / AI Student",
-          heroTitle: "Building with code, web ideas, and AI.",
+          heroEyebrow: "Computer Science Undergraduate",
+          heroTitle: "Building with code, mathematics, and AI.",
           heroIntro:
-            "I am learning programming, web development, artificial intelligence, and hands-on project practice. This site collects small projects, experiments, coursework, and notes as I grow as a developer.",
-          buttonPlay2048: "Play 2048",
-          buttonBrowseGames: "Browse Games",
-          buttonViewGitHub: "View GitHub",
+            "I am a Computer Science undergraduate interested in artificial intelligence, mathematical modeling, web development, and practical software projects. This website collects my academic highlights, project practice, and browser-based experiments.",
+          buttonViewProjects: "View Projects",
+          buttonAcademicHighlights: "Academic Highlights",
+          buttonViewGitHub: "GitHub",
           buttonEmailMe: "Email Me",
           profileDescription:
             "A computer science learner exploring AI, practical software projects, and clean web experiences.",
@@ -744,27 +836,52 @@
           profileStatAi: "Models and applications",
           profileStatWeb: "HTML, CSS, JavaScript",
           profileStatPractice: "Projects and coursework",
+          aboutTitle: "About Me",
+          aboutBody:
+            "I am currently building my foundation in computer science through coursework, competitions, and hands-on projects. My interests include AI, mathematical modeling, data analysis, web development, and open-source learning.",
+          skillsTitle: "Tech Stack",
+          skillsDescription: "Tools and topics I am building confidence with.",
+          skillPython: "Python",
+          skillCpp: "C++",
+          skillHtml: "HTML",
+          skillCss: "CSS",
+          skillJavaScript: "JavaScript",
+          skillLatex: "LaTeX",
+          skillGit: "Git / GitHub",
+          skillModeling: "Mathematical Modeling",
+          skillMl: "Machine Learning",
+          skillData: "Data Analysis",
+          skillWeb: "Web Development",
           academicTitle: "Academic Highlights",
           academicDescription:
-            "Selected academic results from modeling, mathematics, and research practice.",
+            "Selected academic achievements and coursework outcomes from modeling, mathematics, and applied research practice.",
           mcmTag: "MCM / ICM",
           mcmTitle: "2026 MCM/ICM — Honorable Mention",
           mcmDescription:
             "Awarded Honorable Mention in the 2026 Mathematical Contest in Modeling for research on voting fairness and reconstruction in Dancing with the Stars.",
+          mcmKeywords: "Mathematical Modeling · Fairness Analysis · Vote Reconstruction",
           buttonViewCertificate: "View Certificate",
           buttonReadPaper: "Read Paper",
           courseworkTag: "Coursework",
           calculusTitle: "Calculus I — Perfect Score",
           calculusSubtitle: "Only full score in the entire freshman cohort",
           calculusDescription: "Achieved 100/100 in Calculus I during freshman year at Sichuan University.",
-          gamesTitle: "Games / Projects",
+          gamesTitle: "Projects & Games",
           gamesDescription:
-            "Browser games and small web experiments collected under this personal GitHub Pages site.",
+            "Academic projects, web experiments, and browser games collected under this personal site.",
+          projectTagModeling: "Mathematical Modeling",
+          projectTagFairness: "Fairness Analysis",
+          projectTagVote: "Vote Reconstruction",
+          projectTagReplay: "Counterfactual Replay",
+          mcmProjectTitle: "MCM Vote Reconstruction Project",
+          mcmProjectDescription:
+            "A mathematical modeling project that builds a reconstruction–replay–redesign framework to analyze voting fairness in Dancing with the Stars.",
           playableTag: "Playable",
           game2048Title: "2048 Game",
           game2048Description:
             "The original 2048 browser game is preserved here with keyboard controls, scoring, best score, and restart support.",
           path2048: "Path: /2048",
+          buttonPlay2048: "Play 2048",
           snakeTitle: "Snake",
           snakeDescription:
             "A classic grid movement game integrated from patorjk/JavaScript-Snake, with upstream credits and MIT license notices preserved.",
@@ -787,49 +904,77 @@
           buttonPlayDarkRoom: "Play A Dark Room",
           contactTitle: "Contact",
           contactDescription: "Reach me through email, GitHub, or this personal website.",
+          contactNote: "Open to learning projects, collaboration, and technical discussions.",
           contactEmailLabel: "Email",
           contactGitHubLabel: "GitHub",
           contactWebsiteLabel: "Website",
           footerText: "© 2026 Xin Suhan. Built with plain HTML and CSS."
         },
         zh: {
-          pageTitle: "辛苏涵 | CS / AI 学生",
-          metaDescription: "辛苏涵 - 计算机与 AI 学生，学习编程、Web 开发、人工智能与项目实践。",
+          pageTitle: "辛苏涵 | 计算机科学本科生",
+          metaDescription: "辛苏涵 - 计算机科学本科生，关注 AI、数学建模、Web 开发与项目实践。",
+          navAbout: "关于我",
+          navSkills: "技能",
           navAcademic: "学术",
-          navGames: "游戏",
+          navProjects: "项目",
           navContact: "联系",
           navGitHub: "GitHub",
-          heroEyebrow: "CS / AI 学生",
-          heroTitle: "用代码、Web 与 AI 构建想法。",
+          heroEyebrow: "计算机科学本科生",
+          heroTitle: "用代码、数学和 AI 构建自己的作品。",
           heroIntro:
-            "我在学习编程、Web 开发、人工智能与项目实践。本网站收录我成长过程中的小项目、实验、课程与笔记。",
-          buttonPlay2048: "开始 2048",
-          buttonBrowseGames: "浏览游戏",
-          buttonViewGitHub: "查看 GitHub",
-          buttonEmailMe: "给我发邮件",
+            "我是计算机科学本科生，关注人工智能、数学建模、Web 开发和软件项目实践。这个网站用于展示我的学术成果、项目实践和一些浏览器实验。",
+          buttonViewProjects: "查看项目",
+          buttonAcademicHighlights: "学术亮点",
+          buttonViewGitHub: "GitHub",
+          buttonEmailMe: "联系我",
           profileDescription: "计算机科学学习者，探索 AI、实用软件项目与简洁的 Web 体验。",
           profileStatCs: "编程基础",
           profileStatAi: "模型与应用",
           profileStatWeb: "HTML、CSS、JavaScript",
           profileStatPractice: "项目与课程",
+          aboutTitle: "关于我",
+          aboutBody:
+            "我正在通过课程学习、竞赛实践和项目开发夯实计算机科学基础。我的兴趣方向包括人工智能、数学建模、数据分析、Web 开发和开源学习。",
+          skillsTitle: "技术栈",
+          skillsDescription: "正在持续夯实的工具与方向。",
+          skillPython: "Python",
+          skillCpp: "C++",
+          skillHtml: "HTML",
+          skillCss: "CSS",
+          skillJavaScript: "JavaScript",
+          skillLatex: "LaTeX",
+          skillGit: "Git / GitHub",
+          skillModeling: "数学建模",
+          skillMl: "机器学习",
+          skillData: "数据分析",
+          skillWeb: "Web 开发",
           academicTitle: "学术亮点",
-          academicDescription: "来自建模、数学与科研实践的部分成果。",
+          academicDescription: "来自建模、数学与应用研究实践的学术成果与课程表现。",
           mcmTag: "MCM / ICM",
           mcmTitle: "2026 MCM/ICM — 优秀奖",
           mcmDescription:
             "在 2026 年美国大学生数学建模竞赛中获得优秀奖，研究主题为《与星共舞》的投票公平与重建。",
+          mcmKeywords: "数学建模 · 公平性分析 · 投票重构",
           buttonViewCertificate: "查看证书",
           buttonReadPaper: "阅读论文",
           courseworkTag: "课程",
           calculusTitle: "微积分 I — 满分",
           calculusSubtitle: "全新生唯一满分",
           calculusDescription: "在四川大学大一学年取得微积分 I 100/100。",
-          gamesTitle: "游戏 / 项目",
-          gamesDescription: "收录在个人 GitHub Pages 下的浏览器游戏与小型 Web 实验。",
+          gamesTitle: "项目与游戏",
+          gamesDescription: "个人站点收录的学术项目、Web 实验与浏览器小游戏。",
+          projectTagModeling: "数学建模",
+          projectTagFairness: "公平性分析",
+          projectTagVote: "投票重构",
+          projectTagReplay: "反事实重放",
+          mcmProjectTitle: "美赛投票重构与公平性分析项目",
+          mcmProjectDescription:
+            "一个数学建模项目，通过“重构—重放—重设计”框架分析 Dancing with the Stars 中的投票公平性问题。",
           playableTag: "可游玩",
           game2048Title: "2048 游戏",
           game2048Description: "保留原版 2048 浏览器游戏，支持键盘操控、计分、最高分与重开。",
           path2048: "路径：/2048",
+          buttonPlay2048: "开始 2048",
           snakeTitle: "贪吃蛇",
           snakeDescription:
             "集成自 patorjk/JavaScript-Snake 的经典网格移动游戏，保留上游署名与 MIT 许可声明。",
@@ -852,6 +997,7 @@
           buttonPlayDarkRoom: "开始 A Dark Room",
           contactTitle: "联系",
           contactDescription: "可通过邮件、GitHub 或个人网站联系我。",
+          contactNote: "欢迎交流学习项目、合作想法和技术问题。",
           contactEmailLabel: "邮箱",
           contactGitHubLabel: "GitHub",
           contactWebsiteLabel: "网站",
