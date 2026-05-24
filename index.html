@@ -219,7 +219,7 @@
 
     .project-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
     }
 
@@ -265,6 +265,12 @@
       margin-top: 20px;
       color: var(--primary-dark);
       font-weight: 800;
+    }
+
+    .project-meta {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .contact {
@@ -369,7 +375,7 @@
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="/">Xin Suhan</a>
       <div class="nav-links">
-        <a href="#projects">Projects</a>
+        <a href="#games">Games</a>
         <a href="#contact">Contact</a>
         <a href="https://github.com/xinsuhan">GitHub</a>
       </div>
@@ -386,6 +392,7 @@
         </p>
         <div class="actions">
           <a class="button primary" href="/2048/">Play 2048</a>
+          <a class="button" href="#games">Browse Games</a>
           <a class="button" href="https://github.com/xinsuhan">View GitHub</a>
           <a class="button" href="mailto:xinsuhan@gmail.com">Email Me</a>
         </div>
@@ -421,12 +428,12 @@
       </aside>
     </section>
 
-    <section id="projects" aria-labelledby="projects-title">
+    <section id="games" aria-labelledby="games-title">
       <div class="section-head">
-        <h2 id="projects-title">Projects</h2>
+        <h2 id="games-title">Games / Projects</h2>
         <p>
-          A small but growing collection of experiments in games, web pages,
-          AI applications, and course practice.
+          Browser games and small web experiments collected under this personal
+          GitHub Pages site.
         </p>
       </div>
 
@@ -438,28 +445,53 @@
             The original 2048 browser game is preserved here with keyboard
             controls, scoring, best score, and restart support.
           </p>
-          <a href="/2048/">Open project</a>
+          <div class="project-meta">Path: /2048</div>
+          <a href="/2048/">Play 2048</a>
+        </article>
+
+        <article class="project-card">
+          <span class="tag">Playable</span>
+          <h3>Snake</h3>
+          <p>
+            A classic grid movement game integrated from
+            patorjk/JavaScript-Snake, with upstream credits and MIT license
+            notices preserved.
+          </p>
+          <div class="project-meta">Path: /snake</div>
+          <a href="/snake/">Play Snake</a>
         </article>
 
         <article class="project-card">
           <span class="tag">Coming Soon</span>
-          <h3>AI Experiments</h3>
-          <p>Future notes and demos for AI learning, model usage, and small applications.</p>
-          <a href="https://github.com/xinsuhan">GitHub</a>
+          <h3>Minesweeper</h3>
+          <p>
+            A puzzle game planned from sergiss/minesweeper, prepared as a
+            standalone GitHub Pages directory.
+          </p>
+          <div class="project-meta">Path: /minesweeper</div>
+          <a href="/minesweeper/">Open placeholder</a>
         </article>
 
         <article class="project-card">
-          <span class="tag">Notes</span>
-          <h3>Blog</h3>
-          <p>Space reserved for learning logs, technical notes, and project writeups.</p>
-          <a href="mailto:xinsuhan@gmail.com">Contact</a>
+          <span class="tag">Coming Soon</span>
+          <h3>Hextris</h3>
+          <p>
+            A fast browser puzzle game planned from Hextris/hextris, reserved
+            for direct static deployment.
+          </p>
+          <div class="project-meta">Path: /hextris</div>
+          <a href="/hextris/">Open placeholder</a>
         </article>
 
         <article class="project-card">
-          <span class="tag">Coursework</span>
-          <h3>Course Projects</h3>
-          <p>Selected assignments and practice projects from CS and software learning.</p>
-          <a href="https://github.com/xinsuhan">Browse GitHub</a>
+          <span class="tag">Coming Soon</span>
+          <h3>A Dark Room</h3>
+          <p>
+            A minimalist web game planned from doublespeakgames/adarkroom, kept
+            under its own directory for clean asset paths.
+          </p>
+          <div class="project-meta">Path: /dark-room</div>
+          <a href="/dark-room/">Open placeholder</a>
         </article>
       </div>
     </section>
