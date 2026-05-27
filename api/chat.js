@@ -2,6 +2,8 @@ const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_HISTORY_TURNS = 6;
 const MAX_HISTORY_MESSAGES = MAX_HISTORY_TURNS * 2;
+const MAX_FILE_CONTEXT_LENGTH = 8000;
+const MAX_FILE_NAME_LENGTH = 200;
 const ALLOWED_HISTORY_ROLES = new Set(["user", "assistant"]);
 
 const systemPrompt = `你是 xinsuhan.top 的网站 AI 助手。请用简洁、友好的中文回答用户问题。你可以介绍这个网站、站长的项目、学习方向和页面内容，但不要编造不存在的信息。
@@ -113,6 +115,46 @@ function normalizeHistory(history) {
     });
 }
 
+function normalizeFileContext(fileContext) {
+  if (fileContext === undefined || fileContext === null) {
+    return null;
+  }
+
+  if (!fileContext || typeof fileContext !== "object" || Array.isArray(fileContext)) {
+    throw new Error("Invalid file context");
+  }
+
+  const name = typeof fileContext.name === "string" ? fileContext.name.trim() : "";
+  const content = typeof fileContext.content === "string" ? fileContext.content.trim() : "";
+
+  if (!name || !/\.(txt|md)$/i.test(name)) {
+    throw new Error("Unsupported file type");
+  }
+
+  if (name.length > MAX_FILE_NAME_LENGTH || content.length > MAX_FILE_CONTEXT_LENGTH) {
+    throw new Error("Invalid file context length");
+  }
+
+  if (!content) {
+    return null;
+  }
+
+  return { name, content };
+}
+
+function buildFileContextMessage(fileContext) {
+  if (!fileContext) {
+    return [];
+  }
+
+  return [
+    {
+      role: "user",
+      content: `以下是用户上传的临时文本文件内容，仅用于回答当前问题。不要声称该文件已被保存。文件名：${fileContext.name}\n\n${fileContext.content}`
+    }
+  ];
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -121,10 +163,12 @@ module.exports = async function handler(req, res) {
 
   let message;
   let historyMessages;
+  let fileContextMessages;
   try {
     const body = parseBody(req.body);
     message = typeof body.message === "string" ? body.message.trim() : "";
     historyMessages = normalizeHistory(body.history);
+    fileContextMessages = buildFileContextMessage(normalizeFileContext(body.fileContext));
   } catch (error) {
     return res.status(400).json({ error: "Invalid request body" });
   }
@@ -156,6 +200,7 @@ module.exports = async function handler(req, res) {
             content: systemPrompt
           },
           ...historyMessages,
+          ...fileContextMessages,
           {
             role: "user",
             content: message

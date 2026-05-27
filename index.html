@@ -485,6 +485,20 @@
       outline: 2px solid rgba(15, 118, 110, 0.16);
       border-color: var(--primary);
     }
+
+    .ai-file-input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ai-file-status {
+      padding: 16px 16px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
     .contact {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -893,6 +907,7 @@
             Hi, I can answer questions about this website and its projects.
           </p>
         </div>
+        <div class="ai-file-status" id="ai-file-status" aria-live="polite"></div>
         <form class="ai-form" id="ai-form">
           <input
             class="ai-input"
@@ -904,6 +919,8 @@
             data-i18n-placeholder="aiPlaceholder"
             placeholder="Ask something about this site..."
           >
+          <input class="ai-file-input" id="ai-file" type="file" accept=".txt,.md,text/plain,text/markdown">
+          <label class="button" for="ai-file" data-i18n="aiAttachFile">Attach .txt / .md</label>
           <button class="button primary" type="submit" id="ai-send" data-i18n="aiSend">Send</button>
         </form>
       </div>
@@ -1045,6 +1062,11 @@
           aiWelcome: "Hi, I can answer questions about this website and its projects.",
           aiPlaceholder: "Ask something about this site...",
           aiSend: "Send",
+          aiAttachFile: "Attach .txt / .md",
+          aiFileReady: "Attached: {name}",
+          aiFileTooLarge: "File is too large. Please upload a .txt or .md file under 1MB.",
+          aiFileUnsupported: "Only .txt and .md files are supported.",
+          aiFileReadError: "Could not read this file. Please try another .txt or .md file.",
           aiThinking: "Thinking...",
           aiError: "The AI service is temporarily unavailable. Please try again later.",          contactTitle: "Contact",
           contactDescription: "Reach me through email, GitHub, or this personal website.",
@@ -1156,6 +1178,11 @@
           aiWelcome: "你好，我可以回答关于这个网站和项目的问题。",
           aiPlaceholder: "输入你想问的问题...",
           aiSend: "发送",
+          aiAttachFile: "上传 .txt / .md",
+          aiFileReady: "已上传：{name}",
+          aiFileTooLarge: "文件太大，请上传 1MB 以内的 .txt 或 .md 文件。",
+          aiFileUnsupported: "目前只支持 .txt 和 .md 文件。",
+          aiFileReadError: "无法读取该文件，请换一个 .txt 或 .md 文件。",
           aiThinking: "正在思考...",
           aiError: "AI 服务暂时不可用，请稍后再试。",          contactTitle: "联系",
           contactDescription: "可通过邮件、GitHub 或个人网站联系我。",
@@ -1233,14 +1260,31 @@
       const form = document.getElementById("ai-form");
       const input = document.getElementById("ai-input");
       const sendButton = document.getElementById("ai-send");
+      const fileInput = document.getElementById("ai-file");
+      const fileStatus = document.getElementById("ai-file-status");
       const conversationMessages = [];
       const MAX_HISTORY_TURNS = 6;
+      const MAX_FILE_SIZE_BYTES = 1024 * 1024;
+      const MAX_FILE_CONTEXT_CHARS = 8000;
+      let fileContext = null;
 
       function trimConversationHistory() {
         const maxMessages = MAX_HISTORY_TURNS * 2;
         if (conversationMessages.length > maxMessages) {
           conversationMessages.splice(0, conversationMessages.length - maxMessages);
         }
+      }
+
+      function setFileStatus(text, isError) {
+        if (!fileStatus) {
+          return;
+        }
+        fileStatus.textContent = text || "";
+        fileStatus.style.color = isError ? "#8a2f2f" : "";
+      }
+
+      function isSupportedTextFile(file) {
+        return /\.(txt|md)$/i.test(file.name);
       }
 
       function addMessage(text, type) {
@@ -1250,6 +1294,46 @@
         chat.appendChild(message);
         chat.scrollTop = chat.scrollHeight;
         return message;
+      }
+
+      if (fileInput) {
+        fileInput.addEventListener("change", () => {
+          const file = fileInput.files && fileInput.files[0];
+          fileContext = null;
+          setFileStatus("");
+
+          if (!file) {
+            return;
+          }
+
+          if (!isSupportedTextFile(file)) {
+            fileInput.value = "";
+            setFileStatus(t("aiFileUnsupported"), true);
+            return;
+          }
+
+          if (file.size > MAX_FILE_SIZE_BYTES) {
+            fileInput.value = "";
+            setFileStatus(t("aiFileTooLarge"), true);
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.addEventListener("load", () => {
+            const content = String(reader.result || "").slice(0, MAX_FILE_CONTEXT_CHARS);
+            fileContext = {
+              name: file.name,
+              content
+            };
+            setFileStatus(t("aiFileReady").replace("{name}", file.name), false);
+          });
+          reader.addEventListener("error", () => {
+            fileContext = null;
+            fileInput.value = "";
+            setFileStatus(t("aiFileReadError"), true);
+          });
+          reader.readAsText(file);
+        });
       }
 
       if (form && chat && input && sendButton) {
@@ -1273,7 +1357,7 @@
               headers: {
                 "Content-Type": "application/json"
               },
-              body: JSON.stringify({ message, history })
+              body: JSON.stringify({ message, history, fileContext })
             });
 
             if (!response.ok) {
