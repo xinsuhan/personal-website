@@ -3805,7 +3805,36 @@
     };
 
     function getCardImage(name) {
-      return CARD_IMAGES[name] || "";
+      const normalized = String(name || "").trim();
+      if (!normalized) return "";
+      if (CARD_IMAGES[normalized]) return CARD_IMAGES[normalized];
+      if (normalized === "JOKER-A") return "./牌组/JOKER-A.gif";
+      if (normalized === "JOKER-B") return "./牌组/JOKER-B.gif";
+      if (normalized === "大王") return "./牌组/JOKER-A.gif";
+      if (normalized === "小王") return "./牌组/JOKER-B.gif";
+
+      const zhMatch = normalized.match(/^(10|[2-9JQKA])([梅方红黑])$/);
+      if (zhMatch) {
+        const rank = zhMatch[1];
+        const suit = zhMatch[2];
+        const suitMap = {
+          "梅": "Club",
+          "方": "Diamond",
+          "红": "Heart",
+          "黑": "Spade"
+        };
+        const suitName = suitMap[suit];
+        if (suitName) {
+          return `./牌组/${suitName}${rank}.gif`;
+        }
+      }
+
+      const enMatch = normalized.match(/^(Club|Diamond|Heart|Spade)(10|[2-9JQKA])$/);
+      if (enMatch) {
+        return `./牌组/${enMatch[1]}${enMatch[2]}.gif`;
+      }
+
+      return "";
     }
 
     function normalizePlayedText(text) {
@@ -3827,6 +3856,7 @@
       el.dataset.cardName = normalized || "";
       if (normalized === "过牌") {
         el.classList.remove("has-face");
+        el.style.background = "";
         el.style.backgroundImage = "";
         el.style.backgroundSize = "";
         el.style.backgroundPosition = "";
@@ -3838,15 +3868,13 @@
       }
       if (src && shouldShowFace()) {
         el.classList.add("has-face");
-        el.style.backgroundImage = `url(${src})`;
-        el.style.backgroundSize = "cover";
-        el.style.backgroundPosition = "center";
-        el.style.backgroundRepeat = "no-repeat";
+        el.style.background = `#fff url(${src}) center center / cover no-repeat`;
         el.textContent = name;
         el.setAttribute("aria-label", name);
         el.title = name;
       } else {
         el.classList.remove("has-face");
+        el.style.background = "";
         el.style.backgroundImage = "";
         el.style.backgroundSize = "";
         el.style.backgroundPosition = "";
