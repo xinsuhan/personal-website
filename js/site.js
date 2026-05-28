@@ -283,6 +283,7 @@
   const projectSearch = {
     root: document.querySelector(".project-search"),
     input: document.getElementById("project-search-input"),
+    submitButton: document.getElementById("project-search-submit"),
     clearButton: document.getElementById("project-search-clear"),
     count: document.getElementById("project-search-count"),
     empty: document.getElementById("project-search-empty"),
@@ -369,68 +370,13 @@
       .join(" ");
   }
 
-  function clearProjectHighlights() {
-    projectSearch.cards.forEach((card) => {
-      card.querySelectorAll(".project-search-match").forEach((match) => {
-        match.replaceWith(document.createTextNode(match.textContent || ""));
-      });
-      card.normalize();
-    });
-  }
-
   function buildProjectSearchIndex() {
-    clearProjectHighlights();
     projectSearch.items = projectSearch.cards.map((card) => {
       const title = getElementText(card, "h3");
       const description = getElementText(card, "p");
       const tags = getElementText(card, ".tag");
       const haystack = normalizeSearchText([title, description, tags].join(" "));
-      const highlightTargets = Array.from(card.querySelectorAll("h3, p, .tag"));
-      return { card, title, description, tags, haystack, highlightTargets };
-    });
-  }
-
-  function escapeRegExp(value) {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  }
-
-  function highlightTextElement(element, query) {
-    if (!query) {
-      return;
-    }
-
-    const text = element.textContent || "";
-    const pattern = new RegExp(`(${escapeRegExp(query)})`, "giu");
-    const fragment = document.createDocumentFragment();
-    let cursor = 0;
-    let match;
-
-    while ((match = pattern.exec(text)) !== null) {
-      if (match.index > cursor) {
-        fragment.appendChild(document.createTextNode(text.slice(cursor, match.index)));
-      }
-
-      const mark = document.createElement("mark");
-      mark.className = "project-search-match";
-      mark.textContent = match[0];
-      fragment.appendChild(mark);
-      cursor = match.index + match[0].length;
-    }
-
-    if (cursor === 0) {
-      return;
-    }
-
-    if (cursor < text.length) {
-      fragment.appendChild(document.createTextNode(text.slice(cursor)));
-    }
-
-    element.replaceChildren(fragment);
-  }
-
-  function highlightProject(item, query) {
-    item.highlightTargets.forEach((target) => {
-      highlightTextElement(target, query);
+      return { card, title, description, tags, haystack };
     });
   }
 
@@ -440,18 +386,12 @@
     }
 
     const query = normalizeSearchText(projectSearch.input.value);
-    const rawQuery = projectSearch.input.value.trim();
     const matches = [];
-
-    clearProjectHighlights();
     projectSearch.items.forEach((item) => {
       const isVisible = !query || item.haystack.includes(query);
       item.card.hidden = !isVisible;
       if (isVisible) {
         matches.push(item);
-        if (query) {
-          highlightProject(item, rawQuery);
-        }
       }
     });
 
@@ -468,6 +408,33 @@
     if (projectSearch.empty) {
       projectSearch.empty.hidden = !query || matches.length > 0;
     }
+  }
+
+  function handleProjectSearchSubmit() {
+    if (!projectSearch.input) {
+      return;
+    }
+
+    const query = projectSearch.input.value.trim();
+    if (!query) {
+      return;
+    }
+
+    filterProjects();
+    if (!projectSearch.matches.length) {
+      return;
+    }
+
+    const firstMatch = projectSearch.matches[0].card;
+    if (projectSearch.matches.length === 1) {
+      const primaryLink = firstMatch.querySelector(".button.primary, a");
+      if (primaryLink && primaryLink.href) {
+        window.location.href = primaryLink.href;
+        return;
+      }
+    }
+
+    firstMatch.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function clearProjectSearch() {
@@ -494,23 +461,13 @@
       }
       if (event.key === "Enter" && projectSearch.input.value) {
         event.preventDefault();
-        filterProjects();
-        if (!projectSearch.matches.length) {
-          return;
-        }
-
-        const firstMatch = projectSearch.matches[0].card;
-        if (projectSearch.matches.length === 1) {
-          const primaryLink = firstMatch.querySelector(".button.primary, a");
-          if (primaryLink && primaryLink.href) {
-            window.location.href = primaryLink.href;
-            return;
-          }
-        }
-
-        firstMatch.scrollIntoView({ behavior: "smooth", block: "start" });
+        handleProjectSearchSubmit();
       }
     });
+
+    if (projectSearch.submitButton) {
+      projectSearch.submitButton.addEventListener("click", handleProjectSearchSubmit);
+    }
 
     if (projectSearch.clearButton) {
       projectSearch.clearButton.addEventListener("click", clearProjectSearch);
