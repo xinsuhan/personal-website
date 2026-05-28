@@ -347,20 +347,75 @@
   const imageInput = document.getElementById("ai-image");
   const fileStatus = document.getElementById("ai-file-status");
   const conversationMessages = [];
-  const MAX_HISTORY_TURNS = 6;
+  const MAX_HISTORY_MESSAGES = 10;
+  const MAX_HISTORY_MESSAGE_CHARS = 1200;
   const MAX_FILE_SIZE_BYTES = 1024 * 1024;
   const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
-  const MAX_FILE_CONTEXT_CHARS = 8000;
+  const MAX_FILE_CONTEXT_CHARS = 4000;
+  const ALLOWED_HISTORY_ROLES = new Set(["user", "assistant"]);
   let fileContext = null;
   let thinkingTimerId = null;
   let thinkingStartTime = 0;
   let thinkingMessage = null;
 
   function trimConversationHistory() {
-    const maxMessages = MAX_HISTORY_TURNS * 2;
-    if (conversationMessages.length > maxMessages) {
-      conversationMessages.splice(0, conversationMessages.length - maxMessages);
+    if (conversationMessages.length > MAX_HISTORY_MESSAGES) {
+      conversationMessages.splice(0, conversationMessages.length - MAX_HISTORY_MESSAGES);
     }
+  }
+
+  function sanitizeHistory(history) {
+    if (!Array.isArray(history)) {
+      return [];
+    }
+
+    const sanitized = history
+      .map((item) => {
+        if (!item || typeof item !== "object") {
+          return null;
+        }
+
+        const role = item.role;
+        if (!ALLOWED_HISTORY_ROLES.has(role)) {
+          return null;
+        }
+
+        const content = typeof item.content === "string" ? item.content.trim() : "";
+        if (!content) {
+          return null;
+        }
+
+        const limited = content.length > MAX_HISTORY_MESSAGE_CHARS
+          ? content.slice(0, MAX_HISTORY_MESSAGE_CHARS)
+          : content;
+
+        return { role, content: limited };
+      })
+      .filter(Boolean);
+
+    if (sanitized.length > MAX_HISTORY_MESSAGES) {
+      return sanitized.slice(-MAX_HISTORY_MESSAGES);
+    }
+
+    return sanitized;
+  }
+
+  function sanitizeFileContext(context) {
+    if (!context || typeof context !== "object" || Array.isArray(context)) {
+      return null;
+    }
+
+    const sourceType = context.sourceType === "ocr" ? "ocr" : "text";
+    const filename = typeof context.filename === "string" ? context.filename.trim() : "";
+    const content = typeof context.content === "string"
+      ? context.content.trim().slice(0, MAX_FILE_CONTEXT_CHARS)
+      : "";
+
+    if (!filename || !content) {
+      return null;
+    }
+
+    return { sourceType, filename, content };
   }
 
   function setFileStatus(text, isError) {
@@ -609,7 +664,7 @@
             throw new Error("OCR did not recognize readable text.");
           }
 
-          const limited = cleaned.slice(0, 4000);
+          const limited = cleaned.slice(0, MAX_FILE_CONTEXT_CHARS);
           console.log("OCR preview:", limited);
           fileContext = {
             sourceType: "ocr",
@@ -645,7 +700,8 @@
       input.disabled = true;
       sendButton.disabled = true;
       const thinking = startThinkingStatus();
-      const history = conversationMessages.slice();
+      const history = sanitizeHistory(conversationMessages);
+      const sanitizedFileContext = sanitizeFileContext(fileContext);
 
       try {
         const response = await fetch(buildApiUrl("/api/chat"), {
@@ -653,7 +709,7 @@
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ message, history, fileContext })
+          body: JSON.stringify({ message, history, fileContext: sanitizedFileContext })
         });
 
         if (!response.ok) {

@@ -1,8 +1,8 @@
 const DEEPSEEK_API_URL = "https://api.deepseek.com/chat/completions";
 const MAX_MESSAGE_LENGTH = 1000;
-const MAX_HISTORY_TURNS = 6;
-const MAX_HISTORY_MESSAGES = MAX_HISTORY_TURNS * 2;
-const MAX_FILE_CONTEXT_LENGTH = 8000;
+const MAX_HISTORY_MESSAGES = 10;
+const MAX_HISTORY_MESSAGE_LENGTH = 1200;
+const MAX_FILE_CONTEXT_LENGTH = 4000;
 const MAX_FILE_NAME_LENGTH = 200;
 const ALLOWED_HISTORY_ROLES = new Set(["user", "assistant"]);
 const ALLOWED_CONTEXT_SOURCE_TYPES = new Set(["text", "ocr"]);
@@ -98,22 +98,23 @@ function normalizeHistory(history) {
     .slice(-MAX_HISTORY_MESSAGES)
     .map((item) => {
       if (!item || typeof item !== "object") {
-        throw new Error("Invalid history item");
+        return null;
       }
 
       const role = item.role;
       const content = typeof item.content === "string" ? item.content.trim() : "";
 
       if (!ALLOWED_HISTORY_ROLES.has(role) || !content) {
-        throw new Error("Invalid history item");
+        return null;
       }
 
-      if (content.length > MAX_MESSAGE_LENGTH) {
-        throw new Error("History message is too long");
-      }
+      const limited = content.length > MAX_HISTORY_MESSAGE_LENGTH
+        ? content.slice(0, MAX_HISTORY_MESSAGE_LENGTH)
+        : content;
 
-      return { role, content };
-    });
+      return { role, content: limited };
+    })
+    .filter(Boolean);
 }
 
 function normalizeFileContext(fileContext) {
@@ -153,11 +154,11 @@ function normalizeFileContext(fileContext) {
     throw new Error("Invalid fileContext: empty content");
   }
 
-  if (content.length > MAX_FILE_CONTEXT_LENGTH) {
-    throw new Error("Invalid fileContext: content is too long");
-  }
+  const limitedContent = content.length > MAX_FILE_CONTEXT_LENGTH
+    ? content.slice(0, MAX_FILE_CONTEXT_LENGTH)
+    : content;
 
-  return { sourceType, filename, content };
+  return { sourceType, filename, content: limitedContent };
 }
 
 function buildFileContextMessage(fileContext) {
