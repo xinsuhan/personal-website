@@ -1,5 +1,6 @@
 (function () {
   const STORAGE_KEY = "homeLanguage";
+  const THEME_STORAGE_KEY = "homeTheme";
   const API_BASE = (window.API_BASE || document.documentElement.getAttribute("data-api-base") || "").trim();
   const API_ROOT = API_BASE ? API_BASE.replace(/\/$/, "") : "";
 
@@ -278,6 +279,68 @@
   };
 
   const buttons = Array.from(document.querySelectorAll("[data-lang-option]"));
+  const themeButton = document.getElementById("theme-toggle");
+  const systemThemeQuery = typeof window.matchMedia === "function"
+    ? window.matchMedia("(prefers-color-scheme: dark)")
+    : { matches: false };
+
+  function getStoredTheme() {
+    try {
+      const value = localStorage.getItem(THEME_STORAGE_KEY);
+      return value === "dark" || value === "light" ? value : "";
+    } catch (error) {
+      return "";
+    }
+  }
+
+  function getPreferredTheme() {
+    return getStoredTheme() || (systemThemeQuery.matches ? "dark" : "light");
+  }
+
+  function setTheme(theme, persist) {
+    const normalized = theme === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", normalized);
+
+    if (persist) {
+      try {
+        localStorage.setItem(THEME_STORAGE_KEY, normalized);
+      } catch (error) {
+        console.warn("Could not save theme preference:", error);
+      }
+    }
+
+    if (themeButton) {
+      const nextTheme = normalized === "dark" ? "light" : "dark";
+      const label = normalized === "dark" ? "Switch to light theme" : "Switch to dark theme";
+      themeButton.setAttribute("aria-label", label);
+      themeButton.setAttribute("title", label);
+      themeButton.setAttribute("aria-pressed", normalized === "dark" ? "true" : "false");
+      themeButton.dataset.themeTarget = nextTheme;
+    }
+  }
+
+  function initializeTheme() {
+    setTheme(getPreferredTheme(), false);
+
+    if (themeButton) {
+      themeButton.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+        setTheme(currentTheme === "dark" ? "light" : "dark", true);
+      });
+    }
+
+    const syncSystemTheme = () => {
+      if (!getStoredTheme()) {
+        setTheme(systemThemeQuery.matches ? "dark" : "light", false);
+      }
+    };
+
+    if (typeof systemThemeQuery.addEventListener === "function") {
+      systemThemeQuery.addEventListener("change", syncSystemTheme);
+    } else if (typeof systemThemeQuery.addListener === "function") {
+      systemThemeQuery.addListener(syncSystemTheme);
+    }
+  }
 
   function normalizeLang(value) {
     return value === "zh" ? "zh" : "en";
@@ -338,6 +401,8 @@
       setLanguage(button.getAttribute("data-lang-option"), true);
     });
   });
+
+  initializeTheme();
 
   const chat = document.getElementById("ai-chat");
   const form = document.getElementById("ai-form");
@@ -423,7 +488,7 @@
       return;
     }
     fileStatus.textContent = text || "";
-    fileStatus.style.color = isError ? "#8a2f2f" : "";
+    fileStatus.style.color = isError ? "var(--error-text)" : "";
   }
 
   function isSupportedTextFile(file) {

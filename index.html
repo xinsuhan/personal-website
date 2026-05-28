@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Xin Suhan - CS / AI student learning programming, web development, AI, and project practice." data-i18n="metaDescription">
   <title data-i18n="pageTitle">Xin Suhan | CS / AI Student</title>
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("homeTheme");
+        var systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", savedTheme === "dark" || savedTheme === "light" ? savedTheme : systemTheme);
+      } catch (error) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -24,6 +35,10 @@
           <a href="#contact" data-i18n="navContact">Contact</a>
           <a href="https://github.com/xinsuhan" data-i18n="navGitHub">GitHub</a>
         </div>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme" title="Switch theme">
+          <span class="theme-icon theme-icon-sun" aria-hidden="true">☀</span>
+          <span class="theme-icon theme-icon-moon" aria-hidden="true">☾</span>
+        </button>
         <div class="language-switch" aria-label="Language selector">
           <button class="lang-button active" type="button" data-lang-option="en" aria-pressed="true">English</button>
           <button class="lang-button" type="button" data-lang-option="zh" aria-pressed="false">中文</button>
