@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Xin Suhan - CS / AI student learning programming, web development, AI, and project practice." data-i18n="metaDescription">
-  <title data-i18n="pageTitle">Xin Suhan | CS / AI Student</title>
+  <meta name="description" content="Xin Suhan - Computer Science undergraduate focused on AI, mathematical modeling, web development, and project practice." data-i18n="metaDescription">
+  <title data-i18n="pageTitle">Xin Suhan | Computer Science Undergraduate</title>
   <script>
     (function () {
       try {
@@ -186,6 +186,37 @@
       </div>
     </section>
 
+    <section id="timeline" aria-labelledby="timeline-title">
+      <div class="section-head">
+        <h2 id="timeline-title" data-i18n="timelineTitle">Timeline</h2>
+        <p data-i18n="timelineDescription">A concise view of recent academic and project milestones.</p>
+      </div>
+      <div class="timeline-card">
+        <ul class="timeline-list" aria-label="Timeline">
+          <li>
+            <span class="timeline-year">2025</span>
+            <span data-i18n="timelineItem2025">Began undergraduate study in Computer Science.</span>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <span data-i18n="timelineItemMcm">Received MCM/ICM Honorable Mention.</span>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <span data-i18n="timelineItemPortfolio">Built a personal portfolio website.</span>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <span data-i18n="timelineItemGames">Developed browser-based games and web experiments.</span>
+          </li>
+          <li>
+            <span class="timeline-year">2026</span>
+            <span data-i18n="timelineItemResearch">Explored modeling, data analysis, and research-oriented projects.</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <section id="projects" aria-labelledby="games-title">
       <div class="section-head">
         <h2 id="games-title" data-i18n="gamesTitle">Projects & Games</h2>
@@ -210,12 +241,21 @@
           >
           <button class="project-search-clear" id="project-search-clear" type="button" aria-label="Clear project search">&times;</button>
         </div>
+        <div class="project-filters" role="group" aria-label="Project filters">
+          <button class="project-filter active" type="button" data-filter="all" aria-pressed="true" data-i18n="filterAll">All</button>
+          <button class="project-filter" type="button" data-filter="modeling" aria-pressed="false" data-i18n="filterModeling">Modeling</button>
+          <button class="project-filter" type="button" data-filter="research" aria-pressed="false" data-i18n="filterResearch">Research</button>
+          <button class="project-filter" type="button" data-filter="web" aria-pressed="false" data-i18n="filterWeb">Web</button>
+          <button class="project-filter" type="button" data-filter="game" aria-pressed="false" data-i18n="filterGame">Game</button>
+          <button class="project-filter" type="button" data-filter="coursework" aria-pressed="false" data-i18n="filterCoursework">Coursework</button>
+          <button class="project-filter" type="button" data-filter="cs" aria-pressed="false" data-i18n="filterCs">CS</button>
+        </div>
         <p class="project-search-count" id="project-search-count" aria-live="polite"></p>
         <p class="project-search-empty" id="project-search-empty" hidden>未找到相关项目</p>
       </div>
 
       <div class="project-grid">
-        <article class="project-card featured">
+        <article class="project-card featured" data-tags="modeling research cs">
           <div class="tag-row">
             <span class="tag" data-i18n="projectTagModeling">Mathematical Modeling</span>
             <span class="tag" data-i18n="projectTagFairness">Fairness Analysis</span>
@@ -227,11 +267,12 @@
             Reconstructing latent fan votes, comparing aggregation rules, and
             evaluating fairness in a hybrid voting system.
           </p>
-          <div class="academic-actions">
-            <a class="button primary" href="./assets/mcm-paper.pdf" data-i18n="buttonReadPaper">Read Paper</a>
+          <div class="project-actions">
+            <a class="button primary" href="./projects/vote-reconstruction.html" data-i18n="buttonViewProject">View Project</a>
+            <a class="button" href="./assets/mcm-paper.pdf" data-i18n="buttonReadPaper">Read Paper</a>
           </div>
         </article>
-        <article class="project-card featured">
+        <article class="project-card featured" data-tags="research cs">
           <div class="tag-row">
             <span class="tag" data-i18n="dachuangTagInnovation">Student Innovation</span>
             <span class="tag" data-i18n="dachuangTagMedical">Medical Image Analysis</span>
@@ -244,13 +285,13 @@
           <div class="project-meta" data-i18n="dachuangType">Student Innovation Training Program</div>
           <div class="project-meta" data-i18n="dachuangRole">Role: Core Team Member</div>
           <p data-i18n="dachuangDescription">
-            A student innovation project exploring medical image anomaly detection based on granular-ball representation learning. The project aims to improve efficiency, robustness, and interpretability in the detection–segmentation–diagnosis pipeline by using adaptive granular-ball representation, graph construction, and neural network models.
+            A research project on granular-ball representation learning for medical image anomaly detection.
           </p>
-          <div class="academic-actions">
-            <a class="button primary" href="./assets/dachuang-proposal-redacted.pdf" data-i18n="buttonViewRedacted">View Redacted Proposal</a>
+          <div class="project-actions">
+            <a class="button primary" href="./projects/medical-anomaly.html" data-i18n="buttonViewProject">View Project</a>
           </div>
         </article>
-        <article class="project-card featured">
+        <article class="project-card featured" data-tags="game web cs">
           <span class="tag" data-i18n="playableTag">Playable</span>
           <h3 data-i18n="game2048Title">2048 Game</h3>
           <p data-i18n="game2048Description">
@@ -258,10 +299,13 @@
             controls, scoring, best score, and restart support.
           </p>
           <div class="project-meta" data-i18n="path2048">Path: /2048</div>
-          <a href="./2048/" data-i18n="buttonPlay2048">Play 2048</a>
+          <div class="project-actions">
+            <a class="button" href="./projects/2048.html" data-i18n="buttonViewProject">View Project</a>
+            <a class="button primary" href="./2048/" data-i18n="buttonPlay2048">Play 2048</a>
+          </div>
         </article>
 
-        <article class="project-card">
+        <article class="project-card" data-tags="game web">
           <span class="tag" data-i18n="playableTag">Playable</span>
           <h3 data-i18n="snakeTitle">Snake</h3>
           <p data-i18n="snakeDescription">
@@ -273,7 +317,7 @@
           <a href="./snake/" data-i18n="buttonPlaySnake">Play Snake</a>
         </article>
 
-        <article class="project-card">
+        <article class="project-card" data-tags="game web">
           <span class="tag" data-i18n="playableTag">Playable</span>
           <h3 data-i18n="minesweeperTitle">Minesweeper</h3>
           <p data-i18n="minesweeperDescription">
@@ -284,7 +328,7 @@
           <a href="./minesweeper/" data-i18n="buttonPlayMinesweeper">Play Minesweeper</a>
         </article>
 
-        <article class="project-card">
+        <article class="project-card" data-tags="game web">
           <span class="tag" data-i18n="playableTag">Playable</span>
           <h3 data-i18n="hextrisTitle">Hextris</h3>
           <p data-i18n="hextrisDescription">
@@ -295,7 +339,7 @@
           <a href="./hextris/" data-i18n="buttonPlayHextris">Play Hextris</a>
         </article>
 
-        <article class="project-card">
+        <article class="project-card" data-tags="game web">
           <span class="tag" data-i18n="playableTag">Playable</span>
           <h3 data-i18n="darkRoomTitle">A Dark Room</h3>
           <p data-i18n="darkRoomDescription">
@@ -385,6 +429,10 @@
       ></div>
     </section>
   </main>
+
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+    ↑
+  </button>
 
   <footer>
     <div class="site" data-i18n="footerText">© 2026 Xin Suhan. Built with plain HTML and CSS.</div>

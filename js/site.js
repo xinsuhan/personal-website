@@ -31,6 +31,7 @@
       buttonAcademicHighlights: "Academic Highlights",
       buttonViewGitHub: "GitHub",
       buttonEmailMe: "Email Me",
+      buttonViewProject: "View Project",
       profileDescription:
         "A computer science learner exploring AI, practical software projects, and clean web experiences.",
       profileStatCs: "Programming foundations",
@@ -56,6 +57,13 @@
       academicTitle: "Academic Highlights",
       academicDescription:
         "Selected academic achievements and coursework outcomes from modeling, mathematics, and applied research practice.",
+      timelineTitle: "Timeline",
+      timelineDescription: "A concise view of recent academic and project milestones.",
+      timelineItem2025: "Began undergraduate study in Computer Science.",
+      timelineItemMcm: "Received MCM/ICM Honorable Mention.",
+      timelineItemPortfolio: "Built a personal portfolio website.",
+      timelineItemGames: "Developed browser-based games and web experiments.",
+      timelineItemResearch: "Explored modeling, data analysis, and research-oriented projects.",
       mcmTag: "MCM / ICM",
       mcmTitle: "2026 MCM/ICM — Honorable Mention",
       mcmDescription:
@@ -70,6 +78,13 @@
       gamesTitle: "Projects & Games",
       gamesDescription:
         "Academic projects, web experiments, and browser games collected under this personal site.",
+      filterAll: "All",
+      filterModeling: "Modeling",
+      filterResearch: "Research",
+      filterWeb: "Web",
+      filterGame: "Game",
+      filterCoursework: "Coursework",
+      filterCs: "CS",
       projectTagModeling: "Mathematical Modeling",
       projectTagFairness: "Fairness Analysis",
       projectTagVote: "Vote Reconstruction",
@@ -87,7 +102,7 @@
       dachuangType: "Student Innovation Training Program",
       dachuangRole: "Role: Core Team Member",
       dachuangDescription:
-        "A student innovation project exploring medical image anomaly detection based on granular-ball representation learning. The project aims to improve efficiency, robustness, and interpretability in the detection–segmentation–diagnosis pipeline by using adaptive granular-ball representation, graph construction, and neural network models.",
+        "A research project on granular-ball representation learning for medical image anomaly detection.",
       buttonViewRedacted: "View Proposal",
       playableTag: "Playable",
       game2048Title: "2048 Game",
@@ -115,6 +130,59 @@
         "A minimalist text adventure integrated from doublespeakgames/adarkroom, with upstream credits and MPL license notices preserved.",
       pathDarkRoom: "Path: /dark-room",
       buttonPlayDarkRoom: "Play A Dark Room",
+      backToHome: "Back to Home",
+      detailProjectLabel: "Project Detail",
+      detailOverviewTitle: "Overview",
+      detailRoleTitle: "What I Built / My Role",
+      detailTechTitle: "Tech Stack",
+      detailFeaturesTitle: "Key Features",
+      detailResultsTitle: "Results or Demo",
+      detailFutureTitle: "Future Improvements",
+      detailVotePageTitle: "Vote Reconstruction | Project Detail",
+      detailVoteMeta: "Project detail page for Vote Reconstruction & Fairness Analysis.",
+      detailVoteTitle: "Vote Reconstruction & Fairness Analysis",
+      detailVoteIntro:
+        "A modeling study that reconstructs latent votes and evaluates fairness in a hybrid voting system.",
+      detailVoteOverview:
+        "The project examines how aggregation rules influence perceived fairness in a large-scale fan voting setting.",
+      detailVoteRole:
+        "Built the reconstruction pipeline, tested alternative aggregation rules, and summarized fairness metrics.",
+      detailVoteFeature1: "Reconstructed latent fan votes from public outcomes.",
+      detailVoteFeature2: "Compared hybrid aggregation rules across scenarios.",
+      detailVoteFeature3: "Evaluated fairness trade-offs and sensitivity.",
+      detailVoteResults: "Findings and methodology are summarized in the full paper.",
+      detailVoteFuture1: "Extend reconstruction with additional external signals.",
+      detailVoteFuture2: "Prototype an interactive fairness dashboard.",
+      detailMedicalPageTitle: "Medical Anomaly Detection | Project Detail",
+      detailMedicalMeta: "Project detail page for Medical Image Anomaly Detection.",
+      detailMedicalTitle: "Medical Image Anomaly Detection with Granular-Ball Representation Learning",
+      detailMedicalIntro:
+        "A research project exploring granular-ball representation learning for medical image anomaly detection.",
+      detailMedicalOverview:
+        "Focused on improving robustness and interpretability in detection and segmentation workflows.",
+      detailMedicalRole:
+        "Worked on representation design, experiment planning, and result synthesis for the team.",
+      detailMedicalFeature1: "Adaptive granular-ball representation for medical imagery.",
+      detailMedicalFeature2: "Graph construction and feature aggregation experiments.",
+      detailMedicalFeature3: "Evaluation of detection and segmentation stability.",
+      detailMedicalResults: "A redacted proposal summarizes the approach and planned experiments.",
+      detailMedicalFuture1: "Expand validation datasets and baseline comparisons.",
+      detailMedicalFuture2: "Integrate explainability-driven reporting.",
+      detail2048PageTitle: "2048 Game | Project Detail",
+      detail2048Meta: "Project detail page for the 2048 browser game.",
+      detail2048Title: "2048 Game",
+      detail2048Intro:
+        "A preserved browser version of the 2048 game with keyboard support and score tracking.",
+      detail2048Overview:
+        "The project keeps the original gameplay while ensuring a clean UI and reliable persistence.",
+      detail2048Role:
+        "Integrated the game build, verified UX details, and maintained the playable experience.",
+      detail2048Feature1: "Keyboard controls with smooth tile transitions.",
+      detail2048Feature2: "Score, best score, and restart support.",
+      detail2048Feature3: "Responsive layout for desktop and mobile play.",
+      detail2048Results: "Play the game directly in the browser.",
+      detail2048Future1: "Add lightweight analytics and performance tuning.",
+      detail2048Future2: "Explore optional accessibility enhancements.",
       aiTitle: "AI Q&A Assistant",
       aiDescription: "Ask a quick question about this site, projects, and learning notes.",
       aiWelcome: "Hi, I can answer questions about this website and its projects.",
@@ -164,6 +232,7 @@
       buttonAcademicHighlights: "学术亮点",
       buttonViewGitHub: "GitHub",
       buttonEmailMe: "联系我",
+      buttonViewProject: "查看项目",
       profileDescription: "计算机科学学习者，探索 AI、实用软件项目与简洁的 Web 体验。",
       profileStatCs: "编程基础",
       profileStatAi: "模型与应用",
@@ -187,6 +256,13 @@
       skillWeb: "Web 开发",
       academicTitle: "学术亮点",
       academicDescription: "来自建模、数学与应用研究实践的学术成果与课程表现。",
+      timelineTitle: "成长时间线",
+      timelineDescription: "近期学习与项目里程碑的简洁记录。",
+      timelineItem2025: "开始计算机科学本科阶段学习。",
+      timelineItemMcm: "获得 MCM/ICM 优秀奖。",
+      timelineItemPortfolio: "搭建个人作品集网站。",
+      timelineItemGames: "开发浏览器游戏与 Web 实验。",
+      timelineItemResearch: "探索建模、数据分析与研究型项目。",
       mcmTag: "MCM / ICM",
       mcmTitle: "2026 MCM/ICM — 优秀奖",
       mcmDescription:
@@ -200,6 +276,20 @@
       calculusDescription: "在四川大学大一学年取得微积分 I 100/100。",
       gamesTitle: "项目与游戏",
       gamesDescription: "个人站点收录的学术项目、Web 实验与浏览器小游戏。",
+        filterAll: "全部",
+        filterModeling: "建模",
+        filterResearch: "研究",
+        filterWeb: "Web",
+        filterGame: "游戏",
+        filterCoursework: "课程",
+        filterCs: "计算机",
+      filterAll: "全部",
+      filterModeling: "建模",
+      filterResearch: "研究",
+      filterWeb: "Web",
+      filterGame: "游戏",
+      filterCoursework: "课程",
+      filterCs: "计算机",
       projectTagModeling: "数学建模",
       projectTagFairness: "公平性分析",
       projectTagVote: "投票重构",
@@ -217,7 +307,7 @@
       dachuangType: "大学生创新训练计划项目",
       dachuangRole: "角色：核心成员",
       dachuangDescription:
-        "一个基于粒球表示学习的医学图像异常检测大创项目，目标是通过自适应粒球表示、图结构构建和神经网络模型，提升医学图像“检测—分割—诊断”流程的效率、鲁棒性和可解释性。",
+        "基于粒球表示学习的医学图像异常检测研究项目。",
       buttonViewRedacted: "查看脱敏申报书",
       playableTag: "可游玩",
       game2048Title: "2048 游戏",
@@ -244,6 +334,50 @@
         "集成自 doublespeakgames/adarkroom 的极简文字冒险游戏，保留上游署名与 MPL 许可声明。",
       pathDarkRoom: "路径：/dark-room",
       buttonPlayDarkRoom: "开始 A Dark Room",
+      backToHome: "返回首页",
+      detailProjectLabel: "项目详情",
+      detailOverviewTitle: "概览",
+      detailRoleTitle: "我的工作 / 角色",
+      detailTechTitle: "技术栈",
+      detailFeaturesTitle: "关键特性",
+      detailResultsTitle: "成果或演示",
+      detailFutureTitle: "后续改进",
+      detailVotePageTitle: "投票重构 | 项目详情",
+      detailVoteMeta: "投票重构与公平性分析项目详情页。",
+      detailVoteTitle: "投票重构与公平性分析",
+      detailVoteIntro: "围绕混合投票体系的建模研究，重构潜在投票并评估公平性。",
+      detailVoteOverview: "关注不同聚合规则对公平性的影响与敏感性表现。",
+      detailVoteRole: "构建投票重构流程、设计对比方案并总结公平性指标。",
+      detailVoteFeature1: "基于公开结果重构潜在投票。",
+      detailVoteFeature2: "比较多种混合聚合规则。",
+      detailVoteFeature3: "评估公平性权衡与敏感性。",
+      detailVoteResults: "完整方法与结论已整理在论文中。",
+      detailVoteFuture1: "引入更多外部信号提升重构质量。",
+      detailVoteFuture2: "尝试制作可视化公平性仪表盘。",
+      detailMedicalPageTitle: "医学异常检测 | 项目详情",
+      detailMedicalMeta: "医学图像异常检测项目详情页。",
+      detailMedicalTitle: "基于粒球表示学习的医学图像异常检测技术",
+      detailMedicalIntro: "围绕粒球表示学习的医学图像异常检测研究项目。",
+      detailMedicalOverview: "关注检测与分割流程的鲁棒性与可解释性提升。",
+      detailMedicalRole: "参与表示设计、实验规划与结果整理。",
+      detailMedicalFeature1: "自适应粒球表示建模医学图像。",
+      detailMedicalFeature2: "图结构构建与特征聚合实验。",
+      detailMedicalFeature3: "检测与分割稳定性评估。",
+      detailMedicalResults: "脱敏申报书概述了研究方案与实验规划。",
+      detailMedicalFuture1: "扩充验证数据集与对照基线。",
+      detailMedicalFuture2: "补充可解释性分析与展示。",
+      detail2048PageTitle: "2048 游戏 | 项目详情",
+      detail2048Meta: "2048 浏览器游戏项目详情页。",
+      detail2048Title: "2048 游戏",
+      detail2048Intro: "保留原版玩法的 2048 浏览器游戏，支持键盘操控与计分。",
+      detail2048Overview: "在保持经典玩法的同时，优化了界面与稳定性体验。",
+      detail2048Role: "完成游戏集成、交互测试与体验维护。",
+      detail2048Feature1: "键盘操控与流畅方块动画。",
+      detail2048Feature2: "计分、最高分与重开支持。",
+      detail2048Feature3: "桌面与移动端的响应式布局。",
+      detail2048Results: "可直接在浏览器中体验游戏。",
+      detail2048Future1: "加入轻量统计与性能优化。",
+      detail2048Future2: "探索更友好的无障碍支持。",
       aiTitle: "AI 问答助手",
       aiDescription: "可以快速提问这个网站、项目和学习记录相关的问题。",
       aiWelcome: "你好，我可以回答关于这个网站和项目的问题。",
@@ -285,12 +419,15 @@
     input: document.getElementById("project-search-input"),
     submitButton: document.getElementById("project-search-submit"),
     clearButton: document.getElementById("project-search-clear"),
+    filterButtons: Array.from(document.querySelectorAll(".project-filter")),
     count: document.getElementById("project-search-count"),
     empty: document.getElementById("project-search-empty"),
     cards: Array.from(document.querySelectorAll("#projects .project-card")),
     items: [],
-    matches: []
+    matches: [],
+    activeTag: "all"
   };
+  const backToTopButton = document.getElementById("back-to-top");
   const giscusThread = document.getElementById("giscus-thread");
   let isGiscusLoaded = false;
   const systemThemeQuery = typeof window.matchMedia === "function"
@@ -375,8 +512,12 @@
       const title = getElementText(card, "h3");
       const description = getElementText(card, "p");
       const tags = getElementText(card, ".tag");
+      const filterTags = String(card.dataset.tags || "")
+        .split(/\s+/)
+        .map((tag) => tag.trim())
+        .filter(Boolean);
       const haystack = normalizeSearchText([title, description, tags].join(" "));
-      return { card, title, description, tags, haystack };
+      return { card, title, description, tags, haystack, filterTags };
     });
   }
 
@@ -386,9 +527,13 @@
     }
 
     const query = normalizeSearchText(projectSearch.input.value);
+    const activeTag = projectSearch.activeTag || "all";
+    const hasFilters = Boolean(query) || activeTag !== "all";
     const matches = [];
     projectSearch.items.forEach((item) => {
-      const isVisible = !query || item.haystack.includes(query);
+      const matchesQuery = !query || item.haystack.includes(query);
+      const matchesTag = activeTag === "all" || item.filterTags.includes(activeTag);
+      const isVisible = matchesQuery && matchesTag;
       item.card.hidden = !isVisible;
       if (isVisible) {
         matches.push(item);
@@ -401,13 +546,24 @@
       projectSearch.root.classList.toggle("has-query", Boolean(query));
     }
     if (projectSearch.count) {
-      projectSearch.count.textContent = query
+      projectSearch.count.textContent = hasFilters
         ? `${matches.length} / ${projectSearch.items.length} projects`
         : `${projectSearch.items.length} projects`;
     }
     if (projectSearch.empty) {
-      projectSearch.empty.hidden = !query || matches.length > 0;
+      projectSearch.empty.hidden = !hasFilters || matches.length > 0;
     }
+  }
+
+  function setActiveProjectFilter(tag) {
+    const nextTag = tag || "all";
+    projectSearch.activeTag = nextTag;
+    projectSearch.filterButtons.forEach((button) => {
+      const isActive = button.dataset.filter === nextTag;
+      button.classList.toggle("active", isActive);
+      button.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+    filterProjects();
   }
 
   function handleProjectSearchSubmit() {
@@ -416,7 +572,8 @@
     }
 
     const query = projectSearch.input.value.trim();
-    if (!query) {
+    const hasTagFilter = projectSearch.activeTag && projectSearch.activeTag !== "all";
+    if (!query && !hasTagFilter) {
       return;
     }
 
@@ -452,6 +609,13 @@
     }
 
     buildProjectSearchIndex();
+    if (projectSearch.filterButtons.length) {
+      projectSearch.filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setActiveProjectFilter(button.dataset.filter);
+        });
+      });
+    }
     projectSearch.input.addEventListener("input", filterProjects);
     projectSearch.input.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && projectSearch.input.value) {
@@ -474,6 +638,23 @@
     }
 
     filterProjects();
+  }
+
+  function initializeBackToTop() {
+    if (!backToTopButton) {
+      return;
+    }
+
+    const updateVisibility = () => {
+      const shouldShow = window.scrollY > 360;
+      backToTopButton.classList.toggle("is-visible", shouldShow);
+    };
+
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    updateVisibility();
   }
 
   function getGiscusTheme(theme) {
@@ -608,6 +789,7 @@
   initializeTheme();
   initializeProjectSearch();
   initializeGiscus();
+  initializeBackToTop();
 
   const chat = document.getElementById("ai-chat");
   const form = document.getElementById("ai-form");
