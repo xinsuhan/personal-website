@@ -287,7 +287,8 @@
     count: document.getElementById("project-search-count"),
     empty: document.getElementById("project-search-empty"),
     cards: Array.from(document.querySelectorAll("#projects .project-card")),
-    items: []
+    items: [],
+    matches: []
   };
   const giscusThread = document.getElementById("giscus-thread");
   let isGiscusLoaded = false;
@@ -440,30 +441,32 @@
 
     const query = normalizeSearchText(projectSearch.input.value);
     const rawQuery = projectSearch.input.value.trim();
-    let visibleCount = 0;
+    const matches = [];
 
     clearProjectHighlights();
     projectSearch.items.forEach((item) => {
       const isVisible = !query || item.haystack.includes(query);
       item.card.hidden = !isVisible;
       if (isVisible) {
-        visibleCount += 1;
+        matches.push(item);
         if (query) {
           highlightProject(item, rawQuery);
         }
       }
     });
 
+    projectSearch.matches = query ? matches : [];
+
     if (projectSearch.root) {
       projectSearch.root.classList.toggle("has-query", Boolean(query));
     }
     if (projectSearch.count) {
       projectSearch.count.textContent = query
-        ? `${visibleCount} / ${projectSearch.items.length} projects`
+        ? `${matches.length} / ${projectSearch.items.length} projects`
         : `${projectSearch.items.length} projects`;
     }
     if (projectSearch.empty) {
-      projectSearch.empty.hidden = !query || visibleCount > 0;
+      projectSearch.empty.hidden = !query || matches.length > 0;
     }
   }
 
@@ -487,6 +490,25 @@
       if (event.key === "Escape" && projectSearch.input.value) {
         event.preventDefault();
         clearProjectSearch();
+        return;
+      }
+      if (event.key === "Enter" && projectSearch.input.value) {
+        event.preventDefault();
+        filterProjects();
+        if (!projectSearch.matches.length) {
+          return;
+        }
+
+        const firstMatch = projectSearch.matches[0].card;
+        if (projectSearch.matches.length === 1) {
+          const primaryLink = firstMatch.querySelector(".button.primary, a");
+          if (primaryLink && primaryLink.href) {
+            window.location.href = primaryLink.href;
+            return;
+          }
+        }
+
+        firstMatch.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     });
 
