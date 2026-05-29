@@ -3516,7 +3516,184 @@
         linear-gradient(180deg, transparent 0 24px, rgba(229,184,100,0.14) 24px 26px, transparent 26px calc(100% - 26px), rgba(229,184,100,0.14) calc(100% - 26px) calc(100% - 24px), transparent calc(100% - 24px));
       opacity: 0.7;
     }
+    .phase-guidance {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 2px;
+    }
 
+    .guide-chip {
+      min-width: 0;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 8px 10px;
+      background: rgba(0,0,0,0.16);
+    }
+
+    .guide-label {
+      display: block;
+      font-size: 11px;
+      color: rgba(255,255,255,0.68);
+      margin-bottom: 4px;
+      font-weight: 800;
+    }
+
+    .guide-value {
+      display: block;
+      font-size: 13px;
+      color: #fff7c2;
+      font-weight: 900;
+      line-height: 1.35;
+    }
+
+    .local-stats {
+      width: calc(100% - 16px);
+      margin: 10px auto 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat-chip {
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      padding: 8px 6px;
+      text-align: center;
+      background: rgba(0,0,0,0.14);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.72);
+      font-weight: 700;
+    }
+
+    .stat-value {
+      margin-top: 4px;
+      font-size: 16px;
+      color: #dcfce7;
+      font-weight: 900;
+    }
+
+    .selection-advice {
+      margin-top: 8px;
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.16);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: rgba(255,255,255,0.86);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .selection-advice.good {
+      border-color: rgba(34,197,94,0.35);
+      color: #dcfce7;
+    }
+
+    .selection-advice.bad {
+      border-color: rgba(248,113,113,0.34);
+      color: #fee2e2;
+    }
+
+    .selection-advice.warn {
+      border-color: rgba(250,204,21,0.34);
+      color: #fef3c7;
+    }
+
+    .action.primary-action,
+    .rob-btn.primary-action {
+      outline: 2px solid rgba(250,204,21,0.62);
+      box-shadow: 0 0 0 4px rgba(250,204,21,0.12), var(--shadow);
+      transform: translateY(-1px);
+    }
+
+    button.action:disabled,
+    .rob-btn:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      filter: grayscale(0.3);
+      transform: none;
+    }
+
+    .battle-log {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      white-space: normal;
+    }
+
+    .log-entry {
+      border-left: 3px solid rgba(255,255,255,0.16);
+      border-radius: 10px;
+      padding: 7px 8px;
+      background: rgba(255,255,255,0.055);
+      line-height: 1.45;
+    }
+
+    .log-entry strong {
+      color: #fff7c2;
+    }
+
+    .log-entry.key-event {
+      border-left-color: #facc15;
+      background: rgba(250,204,21,0.12);
+    }
+
+    .log-time {
+      color: rgba(255,255,255,0.55);
+      font-size: 11px;
+      margin-right: 6px;
+    }
+
+    .rules-card {
+      max-width: 560px;
+    }
+
+    .rules-list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,0.84);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 720px) {
+      .phase-guidance,
+      .local-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .controls button.action {
+        min-width: 0;
+        white-space: normal;
+      }
+
+      .hand-area {
+        overflow-x: auto;
+        overflow-y: visible;
+        padding-bottom: 8px;
+      }
+
+      .config-card,
+      .rules-card {
+        width: min(94vw, 560px);
+        max-height: calc(100vh - 28px);
+        overflow-y: auto;
+      }
+    }
   </style>
 </head>
 <body class="show-log">
@@ -3552,8 +3729,25 @@
       <div class="phase-bar">
         <div class="phase-text" id="phaseText">阶段：未开始</div>
         <div class="bottom-cards" id="bottomCards"></div>
+        <div class="phase-guidance">
+          <div class="guide-chip">
+            <span class="guide-label">当前操作</span>
+            <span class="guide-value" id="currentActionText">等待开始</span>
+          </div>
+          <div class="guide-chip">
+            <span class="guide-label">下一步提示</span>
+            <span class="guide-value" id="nextTipText">点击开始游戏</span>
+          </div>
+        </div>
       </div>
 
+      <div class="local-stats" id="localStats">
+        <div class="stat-chip"><div class="stat-label">今日胜场</div><div class="stat-value" id="statTodayWins">0</div></div>
+        <div class="stat-chip"><div class="stat-label">总胜场</div><div class="stat-value" id="statTotalWins">0</div></div>
+        <div class="stat-chip"><div class="stat-label">地主胜率</div><div class="stat-value" id="statLandlordRate">0%</div></div>
+        <div class="stat-chip"><div class="stat-label">农民胜率</div><div class="stat-value" id="statFarmerRate">0%</div></div>
+        <div class="stat-chip"><div class="stat-label">最高连胜</div><div class="stat-value" id="statBestStreak">0</div></div>
+      </div>
       <div class="difficulty-bar">
         <div class="difficulty-group">
           <div class="difficulty-label" id="difficultyText">AI 难度：普通</div>
@@ -3641,6 +3835,7 @@
 
       <div class="hand-wrap">
         <div class="hand-title">你的手牌</div>
+        <div class="selection-advice" id="selectionAdvice">开始后点击手牌选择或取消选择。</div>
         <div class="hand-area" id="handArea"></div>
       </div>
 
@@ -3654,7 +3849,9 @@
         <button class="action btn-play" id="btnPlay">出牌</button>
         <button class="action btn-ai" id="btnAiAction">AI提示</button>
         <button class="action btn-pass" id="btnPass">过牌</button>
+        <button class="action btn-refresh" id="btnClearSelection">清空选择</button>
         <button class="action btn-refresh" id="btnRefresh">刷新</button>
+        <button class="action btn-config" id="btnRules">规则说明</button>
         <button class="action btn-config" id="btnConfig">配置</button>
       </div>
 
@@ -3728,6 +3925,23 @@
     </div>
   </div>
 
+
+  <div class="config-modal" id="rulesModal">
+    <div class="config-card rules-card">
+      <div class="config-title">规则说明</div>
+      <div class="config-tip">目标很简单：先把手牌出完的一方获胜。</div>
+      <ul class="rules-list">
+        <li>三人游戏，一名地主对两名农民。地主拿到底牌并先出牌。</li>
+        <li>常见牌型包括单张、对子、三张、三带一、三带二、顺子、连对、飞机、炸弹和王炸。</li>
+        <li>跟牌需要牌型一致且点数更大；炸弹可以压大多数牌，王炸最大。</li>
+        <li>新一轮首家可以自由出牌；如果压不过上家，可以选择过牌。</li>
+        <li>地主先出完则地主胜，任一农民先出完则农民方胜。</li>
+      </ul>
+      <div class="config-actions">
+        <button class="btn-config-save" id="btnRulesClose">知道了</button>
+      </div>
+    </div>
+  </div>
   <script src="./game.js"></script>
   <script>
     const CARD_IMAGES = {
@@ -3899,6 +4113,7 @@
     const LEGACY_AI_CONFIG_KEY = "doudizhu_ai_config_v1";
     const AI_DIFFICULTY_KEY = "doudizhu_ai_difficulty_v1";
     const AI_PLAY_MODE_KEY = "doudizhu_ai_play_mode_v1";
+    const LOCAL_STATS_KEY = "doudizhu_local_stats_v1";
     const defaultAiConfig = {
       thinkingType: "disabled",
       showFaces: true,
@@ -3916,6 +4131,7 @@
     let showCardFaces = true;
     let audioUnlocked = false;
     let endSoundPlayed = false;
+    let endStatsRecorded = false;
 
     const handArea = document.getElementById("handArea");
     const logBox = document.getElementById("log");
@@ -3931,6 +4147,17 @@
     const configModal = document.getElementById("configModal");
     const toastWrap = document.getElementById("toastWrap");
     const btnStart = document.getElementById("btnStart");
+    const btnPlay = document.getElementById("btnPlay");
+    const btnPass = document.getElementById("btnPass");
+    const btnRob = document.getElementById("btnRob");
+    const btnNoRob = document.getElementById("btnNoRob");
+    const btnClearSelection = document.getElementById("btnClearSelection");
+    const btnRules = document.getElementById("btnRules");
+    const btnRulesClose = document.getElementById("btnRulesClose");
+    const rulesModal = document.getElementById("rulesModal");
+    const currentActionText = document.getElementById("currentActionText");
+    const nextTipText = document.getElementById("nextTipText");
+    const selectionAdvice = document.getElementById("selectionAdvice");
     const btnAiAction = document.getElementById("btnAiAction");
     const difficultyButtons = {
       0: document.getElementById("btnDiffEasy"),
@@ -4298,9 +4525,13 @@
     }
 
     function appendLog(text) {
+      if (!logBox) return;
       const time = new Date().toLocaleTimeString();
-      logBox.textContent += `[${time}] ${text}
-`;
+      if (!logBox.classList.contains("battle-log")) {
+        logBox.classList.add("battle-log");
+        logBox.textContent = "";
+      }
+      logBox.insertAdjacentHTML("beforeend", formatLogHtml(text, time));
       logBox.scrollTop = logBox.scrollHeight;
     }
 
@@ -4330,6 +4561,213 @@
     }
 
 
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function todayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function readLocalStats() {
+      const fallback = {
+        today: todayKey(),
+        todayWins: 0,
+        totalWins: 0,
+        totalGames: 0,
+        currentStreak: 0,
+        bestStreak: 0,
+        landlordGames: 0,
+        landlordWins: 0,
+        farmerGames: 0,
+        farmerWins: 0
+      };
+      try {
+        const parsed = JSON.parse(localStorage.getItem(LOCAL_STATS_KEY) || "{}");
+        const stats = { ...fallback, ...parsed };
+        if (stats.today !== todayKey()) {
+          stats.today = todayKey();
+          stats.todayWins = 0;
+        }
+        return stats;
+      } catch (_) {
+        return fallback;
+      }
+    }
+
+    function saveLocalStats(stats) {
+      localStorage.setItem(LOCAL_STATS_KEY, JSON.stringify(stats));
+    }
+
+    function percent(wins, games) {
+      return games ? `${Math.round((wins / games) * 100)}%` : "0%";
+    }
+
+    function renderLocalStats() {
+      const stats = readLocalStats();
+      const set = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+      set("statTodayWins", stats.todayWins || 0);
+      set("statTotalWins", stats.totalWins || 0);
+      set("statLandlordRate", percent(stats.landlordWins || 0, stats.landlordGames || 0));
+      set("statFarmerRate", percent(stats.farmerWins || 0, stats.farmerGames || 0));
+      set("statBestStreak", stats.bestStreak || 0);
+    }
+
+    function recordGameStats(state) {
+      if (!state || !state.gameOver || endStatsRecorded) return;
+      endStatsRecorded = true;
+      const stats = readLocalStats();
+      const myWon = state.myCardCount === 0;
+      const role = playerRole(0, state);
+      stats.totalGames = (stats.totalGames || 0) + 1;
+      if (myWon) {
+        stats.todayWins = (stats.todayWins || 0) + 1;
+        stats.totalWins = (stats.totalWins || 0) + 1;
+        stats.currentStreak = (stats.currentStreak || 0) + 1;
+        stats.bestStreak = Math.max(stats.bestStreak || 0, stats.currentStreak || 0);
+      } else {
+        stats.currentStreak = 0;
+      }
+      if (role === "地主") {
+        stats.landlordGames = (stats.landlordGames || 0) + 1;
+        if (myWon) stats.landlordWins = (stats.landlordWins || 0) + 1;
+      } else if (role === "农民") {
+        stats.farmerGames = (stats.farmerGames || 0) + 1;
+        if (myWon) stats.farmerWins = (stats.farmerWins || 0) + 1;
+      }
+      saveLocalStats(stats);
+      renderLocalStats();
+    }
+
+    function setButtonState(button, enabled, primary = false) {
+      if (!button) return;
+      button.disabled = !enabled;
+      button.classList.toggle("primary-action", !!primary && enabled);
+    }
+
+    function getNeededToBeatText(state) {
+      if (!state || !state.landlordRobbed || state.gameOver) return "";
+      if (!state.lastPlayType) return "你是本轮先手，可以自由出牌。";
+      const lastCards = splitCards(state.lastPlayedText || "");
+      const type = playTypeName(state.lastPlayType);
+      return `需要压过上家的 ${type}${lastCards.length ? `（${lastCards.length} 张）` : ""}，或者选择过牌。`;
+    }
+
+    function updateSelectionAdvice() {
+      if (!selectionAdvice) return;
+      selectionAdvice.className = "selection-advice";
+      if (!gameState) {
+        selectionAdvice.textContent = "开始后点击手牌选择或取消选择。";
+        return;
+      }
+      if (gameState.gameOver) {
+        selectionAdvice.textContent = "本局已结束，可以查看复盘或再来一局。";
+        selectionAdvice.classList.add("warn");
+        return;
+      }
+      if (!gameState.landlordRobbed) {
+        selectionAdvice.textContent = "抢地主阶段暂时不能出牌。";
+        selectionAdvice.classList.add("warn");
+        return;
+      }
+      if (gameState.currentPlayer !== 0) {
+        selectionAdvice.textContent = `${playerName(gameState.currentPlayer)} 正在行动，等轮到你再选牌。`;
+        return;
+      }
+      const selected = Array.from(selectedIndices).sort((a, b) => a - b);
+      if (!selected.length) {
+        selectionAdvice.textContent = getNeededToBeatText(gameState);
+        selectionAdvice.classList.add("warn");
+        return;
+      }
+      const meta = selectedMeta(selected);
+      const beat = canSelectedBeatLast(selected);
+      selectionAdvice.textContent = `已选 ${selected.length} 张：${meta.type || "未识别牌型"}。${beat.reason}`;
+      selectionAdvice.classList.add(beat.canBeat ? "good" : "bad");
+    }
+
+    function updateActionGuide(state) {
+      if (!currentActionText || !nextTipText) return;
+      if (!state) {
+        currentActionText.textContent = "等待开始";
+        nextTipText.textContent = "点击开始游戏。";
+        return;
+      }
+      if (state.gameOver) {
+        currentActionText.textContent = "本局结束";
+        nextTipText.textContent = "可以再来一局，或查看 AI 复盘。";
+        return;
+      }
+      if (!state.landlordRobbed) {
+        currentActionText.textContent = state.currentPlayer === 0 ? "轮到你抢地主" : `${playerName(state.currentPlayer)} 正在抢地主`;
+        nextTipText.textContent = state.currentPlayer === 0 ? "根据手牌强度选择抢地主或不抢。" : "等待电脑完成抢地主决策。";
+        return;
+      }
+      if (state.currentPlayer === 0) {
+        currentActionText.textContent = "轮到你出牌";
+        nextTipText.textContent = getNeededToBeatText(state);
+      } else {
+        currentActionText.textContent = `${playerName(state.currentPlayer)} 行动中`;
+        nextTipText.textContent = "观察上家出牌，准备下一手。";
+      }
+    }
+
+    function updateControlButtons() {
+      const started = !!gameState;
+      const over = !!(gameState && gameState.gameOver);
+      const robbing = !!(gameState && !gameState.landlordRobbed && !over);
+      const myRobTurn = !!(robbing && gameState.currentPlayer === 0);
+      const myPlayTurn = !!(gameState && gameState.landlordRobbed && !over && gameState.currentPlayer === 0);
+      const canPassNow = !!(myPlayTurn && gameState.lastPlayType !== 0);
+
+      setButtonState(btnRob, myRobTurn, myRobTurn);
+      setButtonState(btnNoRob, myRobTurn, myRobTurn);
+      setButtonState(btnPlay, myPlayTurn, myPlayTurn);
+      setButtonState(btnPass, canPassNow, canPassNow);
+      setButtonState(btnAiAction, !!started && !aiBusy && !robbing, myPlayTurn || over);
+      setButtonState(btnClearSelection, selectedIndices.size > 0 && myPlayTurn, selectedIndices.size > 0 && myPlayTurn);
+      setButtonState(btnStart, true, !started || over);
+      if (btnStart) btnStart.textContent = over ? "再来一局" : (started ? "重新开始" : "开始游戏");
+      if (btnAiAction) btnAiAction.textContent = over ? "查看复盘" : "AI提示";
+    }
+
+    function clearSelection(showToast = true) {
+      selectedIndices.clear();
+      renderHand(gameState);
+      updateControlButtons();
+      if (showToast) notify("已清空选择。", "info", false, 1200);
+    }
+
+    function openRulesModal() {
+      if (rulesModal) rulesModal.classList.add("show");
+    }
+
+    function closeRulesModal() {
+      if (rulesModal) rulesModal.classList.remove("show");
+    }
+
+    function formatLogHtml(text, time) {
+      const raw = String(text || "");
+      const actorMatch = raw.match(/^(你|电脑\s?1|电脑\s?2|电脑1|电脑2|系统|AI|DeepSeek AI|人机AI)/);
+      const keyEvent = /炸弹|王炸|地主|赢|失败|结束|复盘|抢地主/.test(raw);
+      let safe = escapeHtml(raw)
+        .replace(/电脑\s+1/g, "电脑1")
+        .replace(/电脑\s+2/g, "电脑2");
+      if (actorMatch) {
+        const actor = actorMatch[0].replace(/\s+/g, "");
+        safe = safe.replace(escapeHtml(actorMatch[0]), `<strong>${escapeHtml(actor)}</strong>`);
+      }
+      return `<div class="log-entry${keyEvent ? " key-event" : ""}"><span class="log-time">${escapeHtml(time)}</span>${safe}</div>`;
+    }
     function refreshStartButton() {
       if (!btnStart) return;
       const started = !!gameState;
@@ -4661,6 +5099,9 @@
       renderBackCards("ai2Backs", state.ai2CardCount);
       renderBottomCards(state);
       renderPhase(state);
+      updateActionGuide(state);
+      updateSelectionAdvice();
+      updateControlButtons();
 
       document.getElementById("roundText").textContent = `回合：${state.gameRound}`;
       document.getElementById("turnText").textContent = `当前轮到：${playerName(state.currentPlayer)}`;
@@ -5112,6 +5553,36 @@
       return [String(value)];
     }
 
+    function normalizeRecommendedCards(value) {
+      if (Array.isArray(value)) return value.map(v => String(v).trim()).filter(Boolean);
+      const text = String(value || "").trim();
+      if (!text || /过牌|pass/i.test(text)) return [];
+      return splitCards(text.replace(/[，,、]/g, " "));
+    }
+
+    function autoSelectRecommendedCards(result) {
+      if (!gameState || !gameState.hand || gameState.currentPlayer !== 0 || gameState.gameOver) return;
+      const candidates = [
+        result.recommended_cards,
+        result.recommendedCards,
+        result.cards,
+        result.play_cards,
+        result.recommended_play,
+        result.recommendedPlay
+      ];
+      let cards = [];
+      for (const candidate of candidates) {
+        cards = normalizeRecommendedCards(candidate);
+        if (cards.length) break;
+      }
+      if (!cards.length) return;
+      const indices = cardsToIndices(gameState.hand, cards);
+      if (!indices || !indices.length) return;
+      selectedIndices.clear();
+      indices.forEach(index => selectedIndices.add(index));
+      renderHand(gameState);
+      notify(`已按 AI 推荐选中：${cards.join(" ")}`, "success", false, 1600);
+    }
     function renderHintResult(result) {
       const recommended = result.recommended_play || result.recommendedPlay || "未给出具体牌型";
       const selectedPlayable = typeof result.selected_is_playable === "boolean"
@@ -5135,6 +5606,7 @@
         ]
       );
       renderAiConversation();
+      autoSelectRecommendedCards(result);
     }
 
     function renderReviewResult(result) {
@@ -5207,6 +5679,25 @@
       }
     }
 
+
+    function renderQuickReview(state) {
+      if (!state || !state.gameOver) return;
+      const winner = state.myCardCount === 0 ? "你" : (state.ai1CardCount === 0 ? "电脑1" : (state.ai2CardCount === 0 ? "电脑2" : "未知"));
+      const myRole = playerRole(0, state);
+      const landlordWon = state.landlordIndex === 0 ? state.myCardCount === 0 : (state.landlordIndex === 1 ? state.ai1CardCount === 0 : state.ai2CardCount === 0);
+      const risk = Math.min(state.ai1CardCount ?? 99, state.ai2CardCount ?? 99) <= 2
+        ? "对手末段手牌很少，后续要更早处理压制和炸弹保留。"
+        : "中盘节奏相对平稳，可以重点复盘关键跟牌选择。";
+      showAiPanel(
+        "局后简短复盘",
+        "本地战报摘要，开启局后自动分析后会继续生成 AI 复盘。",
+        [
+          { title: "胜负结果", content: `${winner} 先出完，${landlordWon ? "地主方" : "农民方"}获胜。` },
+          { title: "你的身份", content: myRole },
+          { title: "风险提醒", content: risk }
+        ]
+      );
+    }
     function renderResultPanel(state) {
       if (!state || !state.gameOver) {
         resultPanel.classList.remove('show');
@@ -5255,6 +5746,11 @@
       const selectedLift = Math.max(12, metrics.baseTop - metrics.selectedTop + 4);
       const handWidth = Math.max(handArea.clientWidth - 16, cardWidth);
       const selectedList = Array.from(selectedIndices).sort((a,b)=>a-b);
+      const displayOrder = state.hand.map((_, index) => index).sort((a, b) => {
+        const rankDiff = cardRankOf(state.hand[b]) - cardRankOf(state.hand[a]);
+        if (rankDiff) return rankDiff;
+        return String(state.hand[a]).localeCompare(String(state.hand[b]), "zh-Hans-CN");
+      });
       const gapBoost = window.innerWidth >= 769 ? Math.max(8, Math.round(cardWidth * 0.18)) : Math.max(4, Math.round(cardWidth * 0.10));
       const rawOverlap = Math.min(
         metrics.maxOverlap,
@@ -5270,8 +5766,8 @@
       const positions = [];
       let cursor = 0;
       for (let i = 0; i < state.hand.length; i++) {
-        const prevSelected = selectedIndices.has(i - 1);
-        const currentSelected = selectedIndices.has(i);
+        const prevSelected = i > 0 && selectedIndices.has(displayOrder[i - 1]);
+        const currentSelected = selectedIndices.has(displayOrder[i]);
         if (i > 0) cursor += overlap;
         if (prevSelected) cursor += gapBoost;
         if (currentSelected) cursor += gapBoost;
@@ -5288,9 +5784,9 @@
       invalid.forEach(index => selectedIndices.delete(index));
 
       const hint = estimatePlayHint(Array.from(selectedIndices).sort((a,b)=>a-b));
-      if (selectedIndices.size) {
-        document.getElementById("playTypeText").textContent = hint;
-      }
+      document.getElementById("playTypeText").textContent = selectedIndices.size ? hint : `牌型：${playTypeName(state.lastPlayType)}`;
+      updateSelectionAdvice();
+      updateControlButtons();
 
       const canSelect = state.landlordRobbed && state.currentPlayer === 0 && !state.gameOver;
       const existing = Array.from(handArea.querySelectorAll(".my-card"));
@@ -5300,7 +5796,8 @@
         node && node.remove();
       }
 
-      state.hand.forEach((cardName, index) => {
+      displayOrder.forEach((actualIndex, index) => {
+        const cardName = state.hand[actualIndex];
         let div = existing[index];
         if (!div) {
           div = document.createElement("div");
@@ -5309,7 +5806,7 @@
           existing[index] = div;
         }
 
-        const selected = selectedIndices.has(index);
+        const selected = selectedIndices.has(actualIndex);
         const rotate = (index - (state.hand.length - 1) / 2) * (window.innerWidth >= 769 ? 0.55 : 0.22);
 
         div.className = "my-card" + (selected ? " selected" : "");
@@ -5329,9 +5826,10 @@
 
         div.onclick = () => {
           if (!canSelect) return;
-          if (selectedIndices.has(index)) selectedIndices.delete(index);
-          else selectedIndices.add(index);
+          if (selectedIndices.has(actualIndex)) selectedIndices.delete(actualIndex);
+          else selectedIndices.add(actualIndex);
           renderHand(gameState);
+          updateControlButtons();
         };
       });
     }
@@ -5342,6 +5840,8 @@
       renderHand(gameState);
       refreshStartButton();
       updateAiActionButton();
+      updateControlButtons();
+      renderLocalStats();
     }
 
     function mallocIntArray(values) {
@@ -5386,6 +5886,9 @@
       if (!gameState || !gameState.gameOver || endSoundPlayed) return;
 
       endSoundPlayed = true;
+      recordGameStats(gameState);
+      renderQuickReview(gameState);
+      updateControlButtons();
       stopBgm();
 
       appendLog(`本局积分结算：你 ${gameState.myScore ?? 0}，电脑1 ${gameState.ai1Score ?? 0}，电脑2 ${gameState.ai2Score ?? 0}`);
@@ -5499,6 +6002,7 @@
 
       unlockAudio();
       endSoundPlayed = false;
+      endStatsRecorded = false;
       stopAllSfx();
       if (bgmEnabled) playBgm();
       playSfx(dealAudio);
@@ -5510,6 +6014,7 @@
       replayEvents = [];
       clearPlayedAreas();
       clearAiPanel();
+      updateSelectionAdvice();
 
       renderAll();
       recordReplayEvent({
@@ -5691,6 +6196,9 @@
       document.getElementById("btnStart").onclick = () => startGame();
       document.getElementById("btnPlay").onclick = () => playSelected();
       document.getElementById("btnAiAction").onclick = () => onAiAction();
+      if (btnClearSelection) btnClearSelection.onclick = () => clearSelection();
+      if (btnRules) btnRules.onclick = () => openRulesModal();
+      if (btnRulesClose) btnRulesClose.onclick = () => closeRulesModal();
       document.getElementById("btnAiChatSend").onclick = async () => {
         try {
           aiBusy = true;
@@ -5733,6 +6241,11 @@
       configModal.onclick = (e) => {
         if (e.target === configModal) closeConfigModal();
       };
+      if (rulesModal) {
+        rulesModal.onclick = (e) => {
+          if (e.target === rulesModal) closeRulesModal();
+        };
+      }
 
       if (aiChatInput) {
         aiChatInput.addEventListener("keydown", async (e) => {
@@ -5765,6 +6278,10 @@
       updateAudioButtons();
       refreshStartButton();
       updateAiActionButton();
+      updateControlButtons();
+      updateActionGuide(gameState);
+      updateSelectionAdvice();
+      renderLocalStats();
       notify("WASM 模块加载完成。先点开始游戏。", "success", true, 2200);
       notify("通知弹窗已启用。", "info", false, 1400);
     }
@@ -5788,4 +6305,3 @@
   </script>
 </body>
 </html>
-
